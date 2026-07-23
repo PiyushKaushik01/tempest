@@ -1,5 +1,5 @@
 let pendingRequests = [];
-const supabaseUrl = "https://ecjodjkhqryqldswsxym.supabase.co";
+const supabaseUrl = "https://ejodjkhqryqldswsxym.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVjam9kamtocXJ5cWxkc3dzeHltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODMzNDM0MTYsImV4cCI6MjA5ODkxOTQxNn0.pc9_0Hm3lW8MTngDqvkmLyPgFCxxel2v0IgKyQm3xjE";
 
 // Change your current initialization to this:
