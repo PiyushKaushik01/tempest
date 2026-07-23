@@ -37,12 +37,17 @@ header {
 }
 
 .logo {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #d4af37;
-    box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+    height: 120px;                  /* Clear, readable banner size */
+    width: auto;                   /* Preserves original aspect ratio */
+    border: none !important;       /* Removes the outer ring/box frame */
+    border-radius: 0 !important;   /* Strips box rounded corners */
+    background: transparent !important; /* Removes inner dark padding fill */
+    padding: 0 !important;         /* Removes empty padding space */
+    box-shadow: none !important;   /* Kills square box shadows */
+    object-fit: contain;
+    
+    /* Adds a subtle gold glow directly around the banner PNG graphic itself */
+    filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.4));
 }
 
 .logo-area h2 {
@@ -383,8 +388,8 @@ img {
         gap: 10px;
     }
     .logo {
-        width: 50px;
-        height: 50px;
+        height: 60px;
+        width: auto;
     }
     .hero {
         padding: 60px 20px 20px;
