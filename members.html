@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Fafnir Member Registry</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Cinzel:wght@600&display=swap" rel="stylesheet">
+
+    <!-- Three.js Library CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <link rel="stylesheet" href="members.css">
+</head>
+
+<body>
+    <!-- Three.js Castle Dungeon Background Canvas -->
+    <canvas id="bgCanvas" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none;"></canvas>
+
+    <header>
+        <div class="logo-area">
+            <img src="fafnir.png" class="logo">
+            <div>
+                <h2>FAFNIR CULT</h2>
+                <p>Member Registry</p>
+            </div>
+        </div>
+        <a href="index2.html" class="homeButton">
+            🏠 Home
+        </a>
+    </header>
+
+    <section class="hero">
+        <h1>Member Registry</h1>
+        <p>
+            Those who walk beside Fafnir are recorded within the Sacred Registry.
+        </p>
+    </section>
+    
+    <div class="searchBox">
+        <input type="text" id="memberSearch" placeholder="Search Member...">
+        <button id="searchButton">
+            🔍︎
+        </button>
+        <div id="searchCount"></div>
+    </div>
+
+    <!-- Floating Edit Button -->
+    <button id="editButton">
+        ✏ Edit Entries
+    </button>
+    <button id="requestButton"
+        style="position: fixed; bottom: 80px; right: 20px; z-index: 1000; padding: 10px 15px; border-radius: 5px; cursor: pointer;">
+        📝 Request Membership
+    </button>
+
+    <div id="requestPopup"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.8); justify-content: center; align-items: center; z-index: 2000;">
+        <div style="background: #1a1a2e; padding: 25px; border-radius: 10px; width: 320px; text-align: center; border: 1px solid #444; display: flex; flex-direction: column; gap: 15px;">
+            <h2 style="margin-top: 0; margin-bottom: 10px;">Request to Join</h2>
+
+            <input id="reqName" placeholder="Name" style="padding: 10px; border-radius: 5px; border: none;">
+            <select id="reqGender" style="padding: 10px; border-radius: 5px; border: none;">
+                <option>E-boy</option>
+                <option>E-girl</option>
+                <option>E-object</option>
+            </select>
+            <input id="reqFetish" placeholder="Fetish" style="padding: 10px; border-radius: 5px; border: none;">
+            <input id="reqStatus" placeholder="Why do you want to join?" style="padding: 10px; border-radius: 5px; border: none;">
+
+            <div style="grid-column: span 2;">
+                <label style="display: block; margin-bottom: 5px;">Avatar Upload:</label>
+                <input type="file" id="reqAvatarFile" accept="image/*" style="width: 100%; display: block;">
+            </div>
+
+            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
+                <button id="submitRequestBtn" style="padding: 10px 15px; border-radius: 5px; cursor: pointer; flex: 1;">Request Join</button>
+                <button id="closeRequestPopup" style="padding: 10px 15px; border-radius: 5px; cursor: pointer; flex: 1;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Popup -->
+    <div id="passwordPopup">
+        <div class="popupBox">
+            <h2>Registry Access</h2>
+            <p>Enter Registry Password</p>
+            <input type="password" id="password" placeholder="Password">
+            <div class="popupButtons">
+                <button id="unlockButton">
+                    Unlock
+                </button>
+                <button id="closePopup">
+                    Cancel
+                </button>
+            </div>
+            <p id="wrongPassword"></p>
+        </div>
+    </div>
+
+    <!-- Hidden Admin Panel -->
+    <section id="adminPanel" style="display: none;">
+        <div class="entryCard">
+            <h2>Pending Requests</h2>
+            <div id="pendingQueue">
+            </div>
+        </div>
+
+        <div class="entryCard" style="margin-top: 20px;">
+            <h2>Direct Add Member</h2>
+            <div class="grid">
+                <input id="name" placeholder="Name">
+                <select id="gender">
+                    <option>E-boy</option>
+                    <option>E-girl</option>
+                    <option>E-object</option>
+                </select>
+                <input id="fetish" placeholder="Fetish">
+                <input id="status" placeholder="Status">
+                <select id="category">
+                    <option>Founding</option>
+                    <option>Elite</option>
+                    <option>Exclusive</option>
+                    <option>Unknown</option>
+                    <option>Regular</option>
+                </select>
+                <div>
+                    <label style="display: block; font-size: 14px; margin-bottom: 5px;">Avatar Upload:</label>
+                    <input type="file" id="adminAvatarFile" accept="image/*">
+                </div>
+            </div>
+            <button id="addButton">Add Member</button>
+        </div>
+    </section>
+
+    <div id="approvePopup" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.8); justify-content: center; align-items: center; z-index: 2000;">
+        <div style="background: #1a1a2e; padding: 25px; border-radius: 10px; width: 320px; text-align: center; border: 1px solid #444; display: flex; flex-direction: column; gap: 15px;">
+            <h2 style="margin-top: 0; margin-bottom: 10px;">Assign Category</h2>
+
+            <select id="approveCategory" style="padding: 10px; border-radius: 5px; border: none; font-size: 16px; background: #fff; color: #000;">
+                <option>Founding</option>
+                <option>Elite</option>
+                <option>Exclusive</option>
+                <option>Unknown</option>
+                <option>Regular</option>
+            </select>
+
+            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 10px;">
+                <button id="confirmApproveBtn" style="padding: 10px 15px; border-radius: 5px; cursor: pointer; flex: 1; background: #4a4e69; color: white; border: none;">Confirm</button>
+                <button id="cancelApproveBtn" style="padding: 10px 15px; border-radius: 5px; cursor: pointer; flex: 1; background: #d90429; color: white; border: none;">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <section id="registry">
+        <div class="category">
+            <h2>Founding</h2>
+            <div id="Founding" class="memberContainer"></div>
+        </div>
+        <div class="category">
+            <h2>Elite</h2>
+            <div id="Elite" class="memberContainer"></div>
+        </div>
+        <div class="category">
+            <h2>Exclusive</h2>
+            <div id="Exclusive" class="memberContainer"></div>
+        </div>
+        <div class="category">
+            <h2>Unknown</h2>
+            <div id="Unknown" class="memberContainer"></div>
+        </div>
+        <div class="category">
+            <h2>Regular</h2>
+            <div id="Regular" class="memberContainer"></div>
+        </div>
+    </section>
+
+    <footer>
+        <p class="desire">
+            "Those who deny desire are ruled by it.<br>
+            Those who understand desire walk beside Fafnir."
+        </p>
+        <p>
+            © Fafnir Fetish Cult
+        </p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="castle-bg.js"></script>
+    <script src="members.js"></script>
+</body>
+
+</html>
