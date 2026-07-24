@@ -411,3 +411,4 @@ document.getElementById("memberSearch").addEventListener("input", function(){
     },850);
 
 });
+// This is a single-line JS comment

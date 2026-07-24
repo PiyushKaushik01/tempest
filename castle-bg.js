@@ -147,7 +147,7 @@
         windowGlow: new THREE.MeshBasicMaterial({ color: 0xffd99b }),
         goldTrim: new THREE.MeshStandardMaterial({ color: 0x997631, roughness: 0.5, metalness: 0.5 })
     };
-
+// This is a single-line JS comment
     // ==================================================
     // LIGHTING
     // ==================================================
