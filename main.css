@@ -1,0 +1,376 @@
+/* =========================================================
+   TEMPEST REGISTRY - AAA CODEX ARCHITECTURE
+   ========================================================= */
+
+:root {
+    --void-black: #030305;
+    --obsidian: #0c0c11;
+    --slate: #1a1a24;
+    --gold-ancient: #9d8048;
+    --gold-bright: #dcb365;
+    --parchment: #e0d8c3;
+    --crimson: #7a1d1d;
+    --ui-border: 1px solid rgba(157, 128, 72, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Force standard scrolling off. The UI is a fixed dashboard. */
+body {
+    background: transparent;
+    color: var(--parchment);
+    overflow: hidden; 
+    height: 100vh;
+    width: 100vw;
+}
+
+#bgCanvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+/* Scrollbar overriding for an RPG feel */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: rgba(0,0,0,0.5); }
+::-webkit-scrollbar-thumb { background: var(--gold-ancient); }
+::-webkit-scrollbar-thumb:hover { background: var(--gold-bright); }
+
+/* ===========================
+   THE DASHBOARD GRID
+=========================== */
+.codex-viewport {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+}
+
+/* ===========================
+   THE OBELISK (Left Sidebar)
+=========================== */
+.vault-obelisk {
+    background: rgba(3, 3, 5, 0.85);
+    backdrop-filter: blur(12px);
+    border-right: var(--ui-border);
+    display: flex;
+    flex-direction: column;
+    padding: 40px 30px;
+    box-shadow: 10px 0 30px rgba(0,0,0,0.8);
+    z-index: 10;
+}
+
+.obelisk-brand { text-align: center; margin-bottom: 50px; }
+.brand-sigil { width: 70px; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--gold-ancient)); }
+.brand-title { font-family: 'Cinzel', serif; color: var(--gold-bright); font-size: 2rem; letter-spacing: 5px; text-transform: uppercase; line-height: 1; }
+.brand-subtitle { font-size: 0.8rem; letter-spacing: 3px; color: var(--gold-ancient); text-transform: uppercase; }
+
+.obelisk-lore { margin-bottom: auto; padding: 20px 0; border-top: var(--ui-border); border-bottom: var(--ui-border); }
+.desire { font-family: 'Cinzel', serif; font-size: 0.95rem; line-height: 1.8; color: rgba(224, 216, 195, 0.7); font-style: italic; text-align: center; }
+
+.obelisk-actions { display: flex; flex-direction: column; gap: 15px; margin-bottom: 40px; }
+.action-rune {
+    background: transparent;
+    border: 1px solid var(--gold-ancient);
+    color: var(--gold-bright);
+    padding: 15px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: block;
+}
+.action-rune:hover { background: var(--gold-ancient); color: var(--void-black); box-shadow: 0 0 20px rgba(157, 128, 72, 0.4); }
+
+.obelisk-footer { text-align: center; font-size: 0.7rem; color: rgba(224, 216, 195, 0.4); letter-spacing: 1px; }
+
+/* ===========================
+   THE ARCHIVE (Right Main Content)
+=========================== */
+.grand-archive {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* The Astrolabe (Top Search) */
+.archive-header {
+    padding: 40px 50px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.search-artifact {
+    display: flex;
+    width: 100%;
+    max-width: 600px;
+    border: var(--ui-border);
+    background: rgba(3, 3, 5, 0.7);
+    backdrop-filter: blur(5px);
+}
+.search-artifact input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--parchment);
+    padding: 15px 25px;
+    font-size: 1rem;
+    outline: none;
+}
+.search-artifact input::placeholder { color: rgba(224, 216, 195, 0.3); }
+.search-artifact button {
+    background: var(--gold-ancient);
+    border: none;
+    color: var(--void-black);
+    padding: 0 30px;
+    font-family: 'Cinzel', serif;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: background 0.2s;
+}
+.search-artifact button:hover { background: var(--gold-bright); }
+.divination-result { font-family: 'Cinzel', serif; color: var(--gold-bright); margin-top: 10px; font-size: 0.85rem; letter-spacing: 1px; }
+
+/* ===========================
+   HIERARCHICAL HALL OF RECORDS 
+   ========================================================= */
+/* ===========================
+   HIERARCHICAL HALL OF RECORDS 
+   ========================================================= */
+.hall-of-records {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    padding: 20px 50px 50px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1;
+}
+
+/* APEX & UNKNOWN TIERS: Founding (1st) & Unknown (2nd) Pillars Span Full Width Horizontally */
+/* APEX TIER: Founding Pillar (1st) */
+.record-pillar:nth-child(1) {
+    grid-column: 1 / -1;
+    min-width: 100%;
+    max-width: 100%;
+    background: rgba(157, 128, 72, 0.05);
+    border: 1px solid var(--gold-bright);
+    height: auto;
+}
+
+.record-pillar:nth-child(1) .pillar-header {
+    background: rgba(157, 128, 72, 0.15);
+    border-bottom: 1px solid var(--gold-bright);
+}
+
+.record-pillar:nth-child(1) .pillar-scroll-zone {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    overflow-y: auto;
+}
+
+/* UNKNOWN TIER: 2nd Pillar (Darker Variation) */
+.record-pillar:nth-child(2) {
+    grid-column: 1 / -1;
+    min-width: 100%;
+    max-width: 100%;
+    background: rgba(14, 13, 10, 0.9);
+    border: 1px solid var(--gold-ancient);
+    height: auto;
+}
+
+.record-pillar:nth-child(2) .pillar-header {
+    background: rgba(49, 42, 20, 0.65);
+    border-bottom: 1px solid var(--gold-ancient);
+}
+
+.record-pillar:nth-child(2) .pillar-scroll-zone {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    overflow-y: auto;
+}
+
+/* LOWER TIERS: Remaining Pillars Stay in Standard Vertical Columns */
+.record-pillar:nth-child(n+3) {
+    grid-column: span 1;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    height: 550px;
+    display: flex;
+    flex-direction: column;
+    background: rgba(12, 12, 17, 0.6);
+    border: var(--ui-border);
+    backdrop-filter: blur(8px);
+}
+
+.record-pillar:nth-child(n+3) .pillar-scroll-zone {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+/* Pillar Standard Structure */
+.record-pillar {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.pillar-header {
+    background: rgba(0,0,0,0.5);
+    padding: 20px;
+    border-bottom: var(--ui-border);
+    text-align: center;
+}
+.pillar-header h2 {
+    font-family: 'Cinzel', serif;
+    color: var(--gold-bright);
+    font-size: 1.2rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+.pillar-scroll-zone {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Injected Registry Cards */
+.member {
+    background: rgba(26, 26, 36, 0.8);
+    border: 1px solid rgba(157, 128, 72, 0.2);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: transform 0.2s, border-color 0.2s;
+}
+.member:hover { transform: translateX(5px); border-color: var(--gold-bright); background: rgba(30, 30, 45, 0.9); }
+.member img { width: 60px; height: 60px; object-fit: cover; border-radius: 0; border: 1px solid var(--gold-ancient); margin-bottom: 15px; }
+.member h3 { font-family: 'Cinzel', serif; color: var(--gold-bright); font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+.member p { display: flex; justify-content: space-between; font-size: 0.8rem; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.member p b { color: var(--gold-ancient); font-family: 'Cinzel', serif; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; }
+/* ===========================
+   THE OVERSEER'S DESK (Admin Drawer)
+=========================== */
+.overseer-drawer {
+    position: absolute;
+    top: 0; right: 0;
+    width: 450px;
+    height: 100vh;
+    background: rgba(12, 12, 17, 0.98);
+    border-left: 2px solid var(--gold-bright);
+    box-shadow: -20px 0 50px rgba(0,0,0,0.9);
+    z-index: 50;
+    /* Display toggled by JS API. When block, acts as a side panel */
+}
+.drawer-scroll-content { height: 100%; overflow-y: auto; padding: 40px; }
+.drawer-title { font-family: 'Cinzel', serif; color: var(--gold-bright); font-size: 1.3rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 25px; border-bottom: var(--ui-border); padding-bottom: 10px; }
+.drawer-section { margin-bottom: 50px; }
+
+/* Admin Pending Queue styling */
+#pendingQueue > div { background: rgba(255,255,255,0.02); border: var(--ui-border); padding: 15px; margin-bottom: 15px; }
+#pendingQueue p { font-size: 0.85rem; margin-bottom: 8px; }
+#pendingQueue b { color: var(--gold-ancient); font-family: 'Cinzel', serif; }
+
+/* ===========================
+   FORMS & INPUTS (Global)
+=========================== */
+.ritual-form { display: flex; flex-direction: column; gap: 15px; }
+.grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.ritual-form input, .ritual-form select {
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(157, 128, 72, 0.4);
+    color: var(--parchment);
+    padding: 12px 15px;
+    font-size: 0.9rem;
+    outline: none;
+    width: 100%;
+}
+.ritual-form input:focus, .ritual-form select:focus { border-color: var(--gold-bright); }
+.file-drop { grid-column: 1 / -1; background: rgba(0,0,0,0.3); border: 1px dashed var(--gold-ancient); padding: 15px; text-align: center; }
+.file-drop label { display: block; font-family: 'Cinzel', serif; font-size: 0.8rem; color: var(--gold-ancient); margin-bottom: 10px; letter-spacing: 1px; text-transform: uppercase; }
+
+/* ===========================
+   MODALS (Ethereal Overlays)
+=========================== */
+.ethereal-overlay {
+    position: fixed !important;
+    top: 0 !important; left: 0 !important;
+    width: 100vw !important; height: 100vh !important;
+    background: rgba(3, 3, 5, 0.9) !important;
+    backdrop-filter: blur(15px) !important;
+    z-index: 1000 !important;
+    /* JS uses flex/block to show */
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+/* This forces JS 'block' to behave like a centered flexbox */
+.ethereal-overlay[style*="display: block"] { display: flex !important; }
+
+.ancient-slate {
+    background: var(--obsidian);
+    border: 1px solid var(--gold-bright);
+    padding: 40px;
+    width: 500px;
+    max-width: 90vw;
+    box-shadow: 0 0 50px rgba(0,0,0,1), inset 0 0 30px rgba(157, 128, 72, 0.05);
+}
+.small-slate { width: 400px; }
+.slate-title { font-family: 'Cinzel', serif; color: var(--gold-bright); text-align: center; font-size: 1.5rem; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 30px; }
+.slate-lore { text-align: center; font-size: 0.85rem; color: var(--gold-ancient); margin-bottom: 25px; }
+
+.slate-actions { display: flex; gap: 15px; margin-top: 10px; grid-column: 1 / -1; }
+.primary-rune, .cancel-rune {
+    flex: 1;
+    padding: 12px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: var(--ui-border);
+}
+.primary-rune { background: var(--gold-ancient); color: var(--void-black); border-color: var(--gold-bright); }
+.primary-rune:hover { background: var(--gold-bright); }
+.cancel-rune { background: transparent; color: var(--crimson); border-color: var(--crimson); }
+.cancel-rune:hover { background: var(--crimson); color: var(--parchment); }
+.error-omen { color: var(--crimson); text-align: center; font-size: 0.85rem; height: 15px; }
+/* ===========================
+   SEARCH HIGHLIGHT FEATURE
+=========================== */
+.member.memberHighlight {
+    border-color: var(--gold-bright) !important;
+    background: rgba(24, 39, 45, 0.95) !important;
+    box-shadow: 0 0 25px rgba(101, 186, 220, 0.5);
+    transform: scale(1.02);
+    z-index: 5;
+}

@@ -444,15 +444,17 @@
         </div>
     </div>
 
-    <script type="importmap">
-    {
-        "imports": {
-            "three": "https://unpkg.com/three@0.158.0/build/three.module.js"
-        }
+  <script type="importmap">
+{
+    "imports": {
+        "three": "https://unpkg.com/three@0.158.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.158.0/examples/jsm/"
     }
-    </script>
+}
+</script>
 
     <script type="module">
+        
         import * as THREE from 'three';
         let isTransitioning = false;
         const hamburgerBtn = document.getElementById('hamburger-btn');
@@ -481,6 +483,7 @@
                 }
             });
         }
+        
 
         document.querySelectorAll('.citizens-link').forEach(link => {
             link.addEventListener('click', (e) => {
@@ -1339,6 +1342,41 @@
         }
 
         window.onload = init;
+        // Initialize the GLTF Loader
+        const loader = new GLTFLoader();
+
+        // Load the model from your project folder
+        loader.load(
+            './cryo_slime.glb', // Replace with your actual GLB filename
+            function (gltf) {
+                const model = gltf.scene;
+
+                // Adjust scale to fit nicely next to the drawbridge/castle
+                model.scale.set(1, 1, 1);
+
+                // Position the model (adjust X, Y, Z coordinates to place it near the castle side)
+                model.position.set(15, 0, 10);
+
+                // Optional: Enable shadows if your scene uses them
+                model.traverse(function (child) {
+                    if (child.isMesh) {
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+                    }
+                });
+
+                // Add the model to your scene
+                scene.add(model);
+            },
+            // Optional: Progress callback
+            function (xhr) {
+                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+            },
+            // Optional: Error callback
+            function (error) {
+                console.error('An error occurred while loading the GLB model:', error);
+            }
+        );
     </script>
 </body>
 
