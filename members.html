@@ -7,7 +7,9 @@
     <title>Tempest | Codex Registry</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Cinzel:wght@600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Cinzel:wght@600&display=swap"
+        rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <link rel="stylesheet" href="main.css">
 </head>
@@ -18,7 +20,7 @@
 
     <!-- WRAPPER 1: Safe-area spatial container -->
     <div id="realm-container" class="realm-container">
-        
+
         <main class="codex-viewport">
 
             <!-- THE OBELISK (Navigation & Lore) -->
@@ -26,15 +28,15 @@
                 <div class="obelisk-brand">
                     <img src="tempest.png" class="brand-sigil" alt="Tempest">
                     <div class="brand-text">
-                        <h1 class="brand-title"><a href="index2.html"  >Tempest</a></h1>
+                        <h1 class="brand-title"><a href="index2.html">Tempest</a></h1>
                         <span class="brand-subtitle">Sacred Registry</span>
                     </div>
                 </div> <!-- This is an HTML comment -->
-                
+
                 <div class="obelisk-lore">
                     <p class="desire">"built on blood of who cannot bleed"</p>
                 </div>
-                
+
                 <nav class="obelisk-actions">
                     <!-- WRAPPER 2: Cluster for flex-reordering on mobile -->
                     <div class="rune-cluster">
@@ -43,7 +45,7 @@
                         <button id="editButton" class="action-rune">Unlock</button>
                     </div>
                 </nav>
-                
+
                 <footer class="obelisk-footer">Kingdom of Tempest. @2026 Starlight. All rights reserved</footer>
             </aside>
 
@@ -51,7 +53,7 @@
             <section class="grand-archive">
                 <!-- WRAPPER 3: Independent scroll surface for smooth touch / mouse navigation -->
                 <div class="archive-scroll-surface">
-                    
+
                     <!-- The Astrolabe (Sticky Search) -->
                     <header class="archive-header">
                         <div class="search-artifact">
@@ -63,7 +65,7 @@
 
                     <!-- THE HALL OF RECORDS -->
                     <div id="registry" class="hall-of-records">
-                        
+
                         <!-- Founding Pillar -->
                         <div class="record-pillar apex-pillar">
                             <div class="pillar-header">
@@ -107,19 +109,24 @@
                     </div>
                 </div>
             </section>
-
+<!-- Overseer Sanctum Toggle Button (Hidden until logged in) -->
+<button id="overseerToggleBtn" class="overseer-toggle-btn" style="display: none;" title="Toggle Overseer Sanctum">
+    <span></span>
+    <span></span>
+    <span></span>
+</button>
             <!-- THE OVERSEER'S DESK (Admin Drawer) -->
             <aside id="adminPanel" class="overseer-drawer" style="display: none;">
                 <!-- WRAPPER 4: Glass layer to protect scrolling content from canvas interference -->
                 <div class="admin-glass-layer">
                     <div class="drawer-scroll-content">
                         <h2 class="drawer-title">Overseer Sanctum</h2>
-                        
+
                         <div class="drawer-section">
                             <h3>Pending Petitions</h3>
                             <div id="pendingQueue"></div>
                         </div>
-                        
+
                         <div class="drawer-section">
                             <h3>Direct Inscription</h3>
                             <div class="ritual-form grid-layout">
@@ -138,9 +145,13 @@
                                     <option>Unknown</option>
                                     <option>Regular</option>
                                 </select>
-                                <div class="file-drop">
-                                    <label>Soul Portrait (Avatar):</label>
-                                    <input type="file" id="adminAvatarFile" accept="image/*">
+                                <div class="admin-avatar-upload-box">
+                                    <label for="adminAvatarFile" id="adminAvatarPreviewLabel"
+                                        class="admin-avatar-label">
+                                        <span id="adminAvatarEmoji" class="admin-avatar-emoji">👤</span>
+                                        <span id="adminAvatarText" class="admin-avatar-text">Choose Soul Portrait</span>
+                                    </label>
+                                    <input type="file" id="adminAvatarFile" accept="image/*" style="display: none;">
                                 </div>
                                 <button id="addButton" class="primary-rune">Inscribe Member</button>
                             </div>
@@ -154,27 +165,39 @@
 
     <!-- WRAPPER 5: Global Ethereal Void for Modals -->
     <div id="ethereal-void" class="ethereal-void-wrapper">
-        
+
+        <!-- Petition Modal -->
+        <!-- Petition Modal -->
         <!-- Petition Modal -->
         <div id="requestPopup" class="ethereal-overlay" style="display: none;">
-            <div class="ancient-slate">
-                <h2 class="slate-title">Petition of Joining</h2>
-                <div class="ritual-form">
+            <div class="ancient-slate parchment-slate">
+
+                <!-- Top Right Avatar Upload -->
+                <div class="parchment-avatar-upload">
+                    <label for="reqAvatarFile" id="avatarPreviewLabel">
+                        <span id="avatarEmoji" class="avatar-emoji">👤</span>
+                    </label>
+                    <input type="file" id="reqAvatarFile" accept="image/*" style="display: none;">
+                </div>
+
+                <h2 class="slate-title dark-ink">Petition of Joining</h2>
+
+                <div class="ritual-form parchment-form">
                     <input id="reqName" placeholder="True Name">
+
                     <select id="reqGender">
-                        <option>E-boy</option>
-                        <option>E-girl</option>
-                        <option>E-object</option>
+                        <option value="" disabled selected hidden>Gender Entity</option>
+                        <option value="E-boy">E-boy</option>
+                        <option value="E-girl">E-girl</option>
+                        <option value="E-object">E-object</option>
                     </select>
+
                     <input id="reqFetish" placeholder="Binding Fetish">
                     <input id="reqStatus" placeholder="Purpose of Joining">
-                    <div class="file-drop">
-                        <label>Upload Soul Portrait:</label>
-                        <input type="file" id="reqAvatarFile" accept="image/*">
-                    </div>
+
                     <div class="slate-actions">
-                        <button id="submitRequestBtn" class="primary-rune">Submit</button>
-                        <button id="closeRequestPopup" class="cancel-rune">Abandon</button>
+                        <button id="submitRequestBtn" class="primary-rune dark-rune">Submit</button>
+                        <button id="closeRequestPopup" class="cancel-rune dark-cancel">Abandon</button>
                     </div>
                 </div>
             </div>

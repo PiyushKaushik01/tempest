@@ -517,12 +517,16 @@ body {
 /* ===========================
    THE OVERSEER'S DESK (Admin Drawer)
 =========================== */
+/* ===========================
+   THE OVERSEER'S DESK (Admin Drawer)
+=========================== */
 .overseer-drawer {
     position: fixed;
     top: 0; right: 0;
     width: 100%;
     height: 100vh;
     z-index: 200;
+    pointer-events: none; /* Allows scrolling & clicks to pass through to the page */
 }
 
 .admin-glass-layer {
@@ -536,8 +540,8 @@ body {
     -webkit-backdrop-filter: blur(25px);
     border-left: 2px solid var(--gold-bright);
     box-shadow: -20px 0 60px rgba(0,0,0,0.9);
+    pointer-events: auto; /* Re-enables clicks & scrolling inside the drawer */
 }
-
 .drawer-scroll-content { height: 100%; overflow-y: auto; padding: 30px 25px; }
 .drawer-title { font-family: var(--font-head); color: var(--gold-bright); font-size: 1.4rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 25px; border-bottom: 1px solid var(--glass-border); padding-bottom: 15px; }
 .drawer-section { margin-bottom: 40px; }
@@ -724,4 +728,239 @@ body {
         height: 100%;
         padding-bottom: 20px;
     }
+}
+/* ===========================
+   PARCHMENT PETITION MODAL
+=========================== */
+/* The Container (Forces a taller, rectangular aspect ratio) */
+.parchment-slate {
+    background: transparent !important; /* Removes the default box color completely */
+    border: none !important;
+    box-shadow: none !important;
+    padding: 85px 50px 75px 50px !important;
+    position: relative;
+    max-width: 460px !important; /* Slightly slimmer */
+    min-height: 580px !important; /* Taller to fix the squished square look */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* The Background Image (Filters out black corners & adds transparency) */
+.parchment-slate::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('pop.png') no-repeat center center;
+    background-size: 100% 100%;
+    mix-blend-mode: screen; /* MAGIC TRICK: Makes the black borders of pop.jpg completely transparent */
+    opacity: 0.85; /* Makes the paper subtly transparent so you can see through it */
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Dark Ink Text */
+.parchment-slate .dark-ink {
+    color: #3b220e !important;
+    text-shadow: none !important;
+    margin-top: 10px;
+    padding-right: 60px; /* Prevents title from overlapping the larger avatar */
+}
+
+/* Transparent Inputs */
+.parchment-form input, 
+.parchment-form select {
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 2px solid rgba(59, 34, 14, 0.3) !important;
+    color: #2a1708 !important;
+    font-family: var(--font-head);
+    font-weight: bold;
+    border-radius: 0 !important;
+    padding: 10px 5px !important;
+    box-shadow: none !important;
+    transition: border-color 0.3s;
+}
+
+.parchment-form input:focus, 
+.parchment-form select:focus {
+    border-bottom: 2px solid rgba(59, 34, 14, 0.9) !important;
+    outline: none !important;
+}
+
+.parchment-form input::placeholder {
+    color: rgba(59, 34, 14, 0.5) !important;
+}
+
+.parchment-form select option {
+    background: #e8d0a9; 
+    color: #2a1708;
+}
+
+/* ===========================
+   TOP-RIGHT AVATAR UPLOAD (Bigger)
+=========================== */
+.parchment-avatar-upload {
+    position: absolute;
+    top: 45px; /* Shifted slightly down */
+    right: 40px;
+    width: 85px; /* BIGGER CIRCLE */
+    height: 85px;
+    z-index: 10;
+}
+
+.parchment-avatar-upload label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px dashed rgba(59, 34, 14, 0.6);
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.3s;
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+.parchment-avatar-upload label:hover {
+    border-color: #3b220e;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.avatar-emoji {
+    font-size: 35px; /* Bigger emoji */
+}
+
+/* ===========================
+   ADJUSTED BUTTONS
+=========================== */
+.parchment-form .dark-rune {
+    background: rgba(59, 34, 14, 0.8) !important;
+    color: #e8d0a9 !important;
+    border: 1px solid #3b220e !important;
+}
+.parchment-form .dark-rune:hover {
+    background: #2a1708 !important;
+}
+.parchment-form .dark-cancel {
+    border-color: #8a2525 !important;
+    color: #8a2525 !important;
+}
+.parchment-form .dark-cancel:hover {
+    background: rgba(138, 37, 37, 0.1) !important;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 767px) {
+    .parchment-slate {
+        padding: 70px 30px 60px 30px !important;
+        min-height: 520px !important;
+    }
+    .parchment-avatar-upload {
+        top: 35px;
+        right: 25px;
+        width: 65px;
+        height: 65px;
+    }
+    .avatar-emoji { font-size: 26px; }
+    .parchment-slate .dark-ink {
+        font-size: 1.15rem !important;
+        padding-right: 50px;
+    }
+}
+/* ===========================
+   ADMIN OVERSEER AVATAR PREVIEW
+=========================== */
+.admin-avatar-upload-box {
+    grid-column: span 1;
+    width: 100%;
+}
+
+.admin-avatar-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    height: 110px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px dashed var(--gold-dim);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.admin-avatar-label:hover {
+    border-color: var(--gold-bright);
+    background-color: rgba(220, 179, 101, 0.05);
+}
+
+.admin-avatar-emoji {
+    font-size: 28px;
+}
+
+.admin-avatar-text {
+    font-family: var(--font-head);
+    font-size: 0.75rem;
+    color: var(--gold-dim);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+/* ===========================
+   OVERSEER SANCTUM TOGGLE BUTTON
+=========================== */
+.overseer-toggle-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 300; /* Keeps button above drawer */
+    background: rgba(8, 8, 12, 0.95);
+    border: 1px solid var(--gold-bright);
+    border-radius: 4px;
+    width: 42px;
+    height: 42px;
+    display: none; /* Hidden by default when logged out */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.8), 0 0 10px var(--gold-glow);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: auto !important;
+}
+
+.overseer-toggle-btn:hover {
+    background: var(--gold-dim);
+    box-shadow: 0 0 20px var(--gold-glow);
+    transform: scale(1.05);
+}
+
+.overseer-toggle-btn span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background-color: var(--gold-bright);
+    transition: all 0.3s ease;
+    border-radius: 2px;
+}
+
+.overseer-toggle-btn:hover span {
+    background-color: var(--void-dark);
+}
+
+/* Smooth Slide Animation for Overseer Drawer */
+.overseer-drawer {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Collapsed state when toggled off */
+.overseer-drawer.drawer-closed {
+    transform: translateX(100%);
 }

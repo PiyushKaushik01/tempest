@@ -341,7 +341,7 @@ window.approveRequest = function (id, name, gender, fetish, status, avatar) {
     document.getElementById("approvePopup").style.display = "flex";
     document.getElementById("approveNameDisplay").innerText = name;
 };
-document.getElementById("searchButton").onclick = function(){
+document.getElementById("searchButton").onclick = function () {
 
     const search = document
         .getElementById("memberSearch")
@@ -354,13 +354,13 @@ document.getElementById("searchButton").onclick = function(){
     let matches = 0;
     let lastMatch = null;
 
-    cards.forEach(card=>{
+    cards.forEach(card => {
 
         card.classList.remove("memberHighlight");
 
         const name = card.dataset.name.toLowerCase();
 
-        if(name.includes(search) && search !== ""){
+        if (name.includes(search) && search !== "") {
 
             matches++;
 
@@ -376,39 +376,109 @@ document.getElementById("searchButton").onclick = function(){
         matches + (matches === 1 ? " result found" : " results found");
 
     // Auto-scroll only when exactly ONE result exists
-if(matches === 1){
+    if (matches === 1) {
 
-    window.lastSearchMatch = lastMatch;
+        window.lastSearchMatch = lastMatch;
 
-}else{
+    } else {
 
-    window.lastSearchMatch = null;
+        window.lastSearchMatch = null;
 
-}
+    }
 
 };
 let searchTimeout;
 
-document.getElementById("memberSearch").addEventListener("input", function(){
+document.getElementById("memberSearch").addEventListener("input", function () {
 
     document.getElementById("searchButton").click();
 
     clearTimeout(searchTimeout);
 
-    searchTimeout = setTimeout(()=>{
+    searchTimeout = setTimeout(() => {
 
-        if(window.lastSearchMatch){
+        if (window.lastSearchMatch) {
 
             window.lastSearchMatch.scrollIntoView({
 
-                behavior:"smooth",
-                block:"center"
+                behavior: "smooth",
+                block: "center"
 
             });
 
         }
 
-    },850);
+    }, 850);
 
 });
+document.addEventListener('DOMContentLoaded', function () {
+    // 1. Petition Modal Avatar Preview
+    const reqInput = document.getElementById('reqAvatarFile');
+    if (reqInput) {
+        reqInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    const label = document.getElementById('avatarPreviewLabel');
+                    const emoji = document.getElementById('avatarEmoji');
+                    if (emoji) emoji.style.display = 'none';
+                    label.style.backgroundImage = `url(${event.target.result})`;
+                    label.style.backgroundSize = 'cover';
+                    label.style.backgroundPosition = 'center';
+                    label.style.border = '2px solid #3b220e';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    // 2. Overseer Sanctum (Direct Inscription) Avatar Preview
+    const adminInput = document.getElementById('adminAvatarFile');
+    if (adminInput) {
+        adminInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    const label = document.getElementById('adminAvatarPreviewLabel');
+                    const emoji = document.getElementById('adminAvatarEmoji');
+                    const text = document.getElementById('adminAvatarText');
+
+                    if (emoji) emoji.style.display = 'none';
+                    if (text) text.style.display = 'none';
+
+                    label.style.backgroundImage = `url(${event.target.result})`;
+                    label.style.border = '1px solid var(--gold-bright)';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+});
 // This is a single-line JS comment
+// Overseer Sanctum Hide / Unhide Toggle Logic
+document.addEventListener('DOMContentLoaded', function () {
+    const adminPanel = document.getElementById('adminPanel');
+    const toggleBtn = document.getElementById('overseerToggleBtn');
+
+    if (adminPanel && toggleBtn) {
+        // 1. Toggle side panel open/closed when 3-line icon is clicked
+        toggleBtn.addEventListener('click', function () {
+            adminPanel.classList.toggle('drawer-closed');
+        });
+
+        // 2. Automatically show 3-line icon ONLY when admin panel is unlocked (logged in)
+        const observer = new MutationObserver(function () {
+            const isVisible = window.getComputedStyle(adminPanel).display !== 'none';
+            if (isVisible) {
+                toggleBtn.style.display = 'flex';
+            } else {
+                toggleBtn.style.display = 'none';
+                adminPanel.classList.remove('drawer-closed');
+            }
+        });
+
+        observer.observe(adminPanel, { attributes: true, attributeFilter: ['style'] });
+    }
+});
