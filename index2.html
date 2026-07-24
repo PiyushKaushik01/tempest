@@ -414,7 +414,8 @@
             <div class="ui-nav desktop-nav">
                 <div class="ui-nav-item"><a href="members.html" class="citizens-link"
                         style="color:inherit; text-decoration:none;">Citizens</a></div>
-                <div class="ui-nav-item">About Us</div>
+                <div class="ui-nav-item"><a href="about.html" class="about-link"
+                        style="color:inherit; text-decoration:none;">About Us</a></div>
                 <div class="ui-nav-item">Join Us</div>
                 <div class="ui-nav-item">Support</div>
             </div>
@@ -425,7 +426,8 @@
             <div class="drawer-close">&times;</div>
             <div class="drawer-nav-item"><a href="members.html" class="citizens-link"
                     style="color:inherit; text-decoration:none;">Citizens</a></div>
-            <div class="drawer-nav-item">About Us</div>
+            <div class="drawer-nav-item"><a href="about.html" class="about-link"
+                    style="color:inherit; text-decoration:none;">About Us</a></div>
             <div class="drawer-nav-item">Join Us</div>
             <div class="drawer-nav-item">Support</div>
         </div>
@@ -444,7 +446,7 @@
         </div>
     </div>
 
-  <script type="importmap">
+    <script type="importmap">
 {
     "imports": {
         "three": "https://unpkg.com/three@0.158.0/build/three.module.js",
@@ -454,7 +456,7 @@
 </script>
 
     <script type="module">
-        
+
         import * as THREE from 'three';
         let isTransitioning = false;
         const hamburgerBtn = document.getElementById('hamburger-btn');
@@ -483,7 +485,7 @@
                 }
             });
         }
-        
+
 
         document.querySelectorAll('.citizens-link').forEach(link => {
             link.addEventListener('click', (e) => {
@@ -509,6 +511,35 @@
 
                 setTimeout(() => {
                     window.location.href = 'members.html';
+                }, 1500);
+            });
+        });
+        // --- ABOUT US DUNGEON ZOOM & REDIRECT ---
+        document.querySelectorAll('.about-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (isTransitioning) return;
+                isTransitioning = true;
+
+                if (mobileDrawer) {
+                    mobileDrawer.classList.remove('open');
+                }
+
+                if (elMainUI) {
+                    elMainUI.style.transition = 'opacity 0.8s ease';
+                    elMainUI.style.opacity = 0;
+                }
+
+                // Trigger dungeon zoom camera animation
+                appState = 'ZOOM_GATE';
+
+                const overlay = document.getElementById('transition-overlay');
+                if (overlay) {
+                    overlay.style.opacity = 1;
+                }
+
+                setTimeout(() => {
+                    window.location.href = 'about.html';
                 }, 1500);
             });
         });
