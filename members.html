@@ -9,189 +9,213 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Cinzel:wght@600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- Desktop Stylesheet -->
-   <link rel="stylesheet" href="main.css">
-
+    <link rel="stylesheet" href="main.css">
 </head>
 
 <body>
     <!-- Three.js Canvas Background -->
     <canvas id="bgCanvas"></canvas>
 
-    <!-- DESKTOP VIEWPORT -->
-    <main class="codex-viewport">
+    <!-- WRAPPER 1: Safe-area spatial container -->
+    <div id="realm-container" class="realm-container">
+        
+        <main class="codex-viewport">
 
-        <!-- THE OBELISK (Left Sidebar) -->
-        <aside class="vault-obelisk">
-            <div class="obelisk-brand">
-                <img src="tempest.png" class="brand-sigil" alt="Tempest">
-                <h1 class="brand-title">Tempest</h1>
-                <span class="brand-subtitle">Sacred Registry</span>
-            </div>
-            <div class="obelisk-lore">
-                <p class="desire">"Inscribe the archives within the eternal codex."</p>
-            </div>
-            <nav class="obelisk-actions">
-                <a href="index2.html" class="action-rune">Return</a>
-                <button id="requestButton" class="action-rune">Petition</button>
-                <button id="editButton" class="action-rune">Unlock</button>
-            </nav>
-            <footer class="obelisk-footer">TEMPEST ARCHITECTURE v3.0</footer>
-        </aside>
-
-        <!-- THE ARCHIVE (Right Main Content) -->
-        <section class="grand-archive">
-            
-            <!-- The Astrolabe (Top Search) -->
-            <header class="archive-header">
-                <div class="search-artifact">
-                    <input type="text" id="memberSearch" placeholder="Inscribe name to seek...">
-                    <button id="searchButton">Seek</button>
+            <!-- THE OBELISK (Navigation & Lore) -->
+            <aside class="vault-obelisk">
+                <div class="obelisk-brand">
+                    <img src="tempest.png" class="brand-sigil" alt="Tempest">
+                    <div class="brand-text">
+                        <h1 class="brand-title"><a href="index2.html"  >Tempest</a></h1>
+                        <span class="brand-subtitle">Sacred Registry</span>
+                    </div>
                 </div>
-                <div id="searchCount" class="divination-result"></div>
-            </header>
-
-            <!-- THE HALL OF RECORDS (Horizontal Flow Layout) -->
-            <div id="registry" class="hall-of-records">
                 
-                <!-- Founding Pillar -->
-                <div class="record-pillar">
-                    <div class="pillar-header">
-                        <h2>Founding</h2>
+                <div class="obelisk-lore">
+                    <p class="desire">"built on blood of who cannot bleed"</p>
+                </div>
+                
+                <nav class="obelisk-actions">
+                    <!-- WRAPPER 2: Cluster for flex-reordering on mobile -->
+                    <div class="rune-cluster">
+                        <a href="index2.html" class="action-rune">Return</a>
+                        <button id="requestButton" class="action-rune">Petition</button>
+                        <button id="editButton" class="action-rune">Unlock</button>
                     </div>
-                    <div id="Founding" class="memberContainer pillar-scroll-zone"></div>
-                </div>
+                </nav>
+                
+                <footer class="obelisk-footer">Kingdom of Tempest. @2026 Starlight. All rights reserved</footer>
+            </aside>
 
-                <!-- Elite Pillar -->
-                <div class="record-pillar">
-                    <div class="pillar-header">
-                        <h2>Elite</h2>
-                    </div>
-                    <div id="Elite" class="memberContainer pillar-scroll-zone"></div>
-                </div>
-
-                <!-- Exclusive Pillar -->
-                <div class="record-pillar">
-                    <div class="pillar-header">
-                        <h2>Exclusive</h2>
-                    </div>
-                    <div id="Exclusive" class="memberContainer pillar-scroll-zone"></div>
-                </div>
-
-                <!-- Regular Pillar -->
-                <div class="record-pillar">
-                    <div class="pillar-header">
-                        <h2>Regular</h2>
-                    </div>
-                    <div id="Regular" class="memberContainer pillar-scroll-zone"></div>
-                </div>
-
-                <!-- Unknown Pillar -->
-                <div class="record-pillar">
-                    <div class="pillar-header">
-                        <h2>Unknown</h2>
-                    </div>
-                    <div id="Unknown" class="memberContainer pillar-scroll-zone"></div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- THE OVERSEER'S DESK (Admin Drawer) -->
-        <aside id="adminPanel" class="overseer-drawer" style="display: none;">
-            <div class="drawer-scroll-content">
-                <h2 class="drawer-title">Overseer Sanctum</h2>
-                <div class="drawer-section">
-                    <h3>Pending Petitions</h3>
-                    <div id="pendingQueue"></div>
-                </div>
-                <div class="drawer-section">
-                    <h3>Direct Inscription</h3>
-                    <div class="ritual-form grid-layout">
-                        <input id="name" placeholder="Entity Name">
-                        <select id="gender">
-                            <option>E-boy</option>
-                            <option>E-girl</option>
-                            <option>E-object</option>
-                        </select>
-                        <input id="fetish" placeholder="Binding Fetish">
-                        <input id="status" placeholder="Current Status">
-                        <select id="category">
-                            <option>Founding</option>
-                            <option>Elite</option>
-                            <option>Exclusive</option>
-                            <option>Unknown</option>
-                            <option>Regular</option>
-                        </select>
-                        <div class="file-drop">
-                            <label>Soul Portrait (Avatar):</label>
-                            <input type="file" id="adminAvatarFile" accept="image/*">
+            <!-- THE ARCHIVE (Main Content Area) -->
+            <section class="grand-archive">
+                <!-- WRAPPER 3: Independent scroll surface for smooth touch / mouse navigation -->
+                <div class="archive-scroll-surface">
+                    
+                    <!-- The Astrolabe (Sticky Search) -->
+                    <header class="archive-header">
+                        <div class="search-artifact">
+                            <input type="text" id="memberSearch" placeholder="Inscribe name to seek...">
+                            <button id="searchButton">Seek</button>
                         </div>
-                        <button id="addButton" class="primary-rune">Inscribe Member</button>
+                        <div id="searchCount" class="divination-result"></div>
+                    </header>
+
+                    <!-- THE HALL OF RECORDS -->
+                    <div id="registry" class="hall-of-records">
+                        
+                        <!-- Founding Pillar -->
+                        <div class="record-pillar apex-pillar">
+                            <div class="pillar-header">
+                                <h2>Founding</h2>
+                            </div>
+                            <div id="Founding" class="memberContainer pillar-scroll-zone"></div>
+                        </div>
+
+                        <!-- Unknown Pillar -->
+                        <div class="record-pillar shadow-pillar">
+                            <div class="pillar-header">
+                                <h2>Unknown</h2>
+                            </div>
+                            <div id="Unknown" class="memberContainer pillar-scroll-zone"></div>
+                        </div>
+
+                        <!-- Elite Pillar -->
+                        <div class="record-pillar">
+                            <div class="pillar-header">
+                                <h2>Elite</h2>
+                            </div>
+                            <div id="Elite" class="memberContainer pillar-scroll-zone"></div>
+                        </div>
+
+                        <!-- Exclusive Pillar -->
+                        <div class="record-pillar">
+                            <div class="pillar-header">
+                                <h2>Exclusive</h2>
+                            </div>
+                            <div id="Exclusive" class="memberContainer pillar-scroll-zone"></div>
+                        </div>
+
+                        <!-- Regular Pillar -->
+                        <div class="record-pillar">
+                            <div class="pillar-header">
+                                <h2>Regular</h2>
+                            </div>
+                            <div id="Regular" class="memberContainer pillar-scroll-zone"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- THE OVERSEER'S DESK (Admin Drawer) -->
+            <aside id="adminPanel" class="overseer-drawer" style="display: none;">
+                <!-- WRAPPER 4: Glass layer to protect scrolling content from canvas interference -->
+                <div class="admin-glass-layer">
+                    <div class="drawer-scroll-content">
+                        <h2 class="drawer-title">Overseer Sanctum</h2>
+                        
+                        <div class="drawer-section">
+                            <h3>Pending Petitions</h3>
+                            <div id="pendingQueue"></div>
+                        </div>
+                        
+                        <div class="drawer-section">
+                            <h3>Direct Inscription</h3>
+                            <div class="ritual-form grid-layout">
+                                <input id="name" placeholder="Entity Name">
+                                <select id="gender">
+                                    <option>E-boy</option>
+                                    <option>E-girl</option>
+                                    <option>E-object</option>
+                                </select>
+                                <input id="fetish" placeholder="Binding Fetish">
+                                <input id="status" placeholder="Current Status">
+                                <select id="category">
+                                    <option>Founding</option>
+                                    <option>Elite</option>
+                                    <option>Exclusive</option>
+                                    <option>Unknown</option>
+                                    <option>Regular</option>
+                                </select>
+                                <div class="file-drop">
+                                    <label>Soul Portrait (Avatar):</label>
+                                    <input type="file" id="adminAvatarFile" accept="image/*">
+                                </div>
+                                <button id="addButton" class="primary-rune">Inscribe Member</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+        </main>
+    </div>
+
+    <!-- WRAPPER 5: Global Ethereal Void for Modals -->
+    <div id="ethereal-void" class="ethereal-void-wrapper">
+        
+        <!-- Petition Modal -->
+        <div id="requestPopup" class="ethereal-overlay" style="display: none;">
+            <div class="ancient-slate">
+                <h2 class="slate-title">Petition of Joining</h2>
+                <div class="ritual-form">
+                    <input id="reqName" placeholder="True Name">
+                    <select id="reqGender">
+                        <option>E-boy</option>
+                        <option>E-girl</option>
+                        <option>E-object</option>
+                    </select>
+                    <input id="reqFetish" placeholder="Binding Fetish">
+                    <input id="reqStatus" placeholder="Purpose of Joining">
+                    <div class="file-drop">
+                        <label>Upload Soul Portrait:</label>
+                        <input type="file" id="reqAvatarFile" accept="image/*">
+                    </div>
+                    <div class="slate-actions">
+                        <button id="submitRequestBtn" class="primary-rune">Submit</button>
+                        <button id="closeRequestPopup" class="cancel-rune">Abandon</button>
                     </div>
                 </div>
             </div>
-        </aside>
+        </div>
 
-    </main>
-
-    <!-- MODALS (Popups) -->
-    <div id="requestPopup" class="ethereal-overlay" style="display: none;">
-        <div class="ancient-slate">
-            <h2 class="slate-title">Petition of Joining</h2>
-            <div class="ritual-form">
-                <input id="reqName" placeholder="True Name">
-                <select id="reqGender">
-                    <option>E-boy</option>
-                    <option>E-girl</option>
-                    <option>E-object</option>
-                </select>
-                <input id="reqFetish" placeholder="Binding Fetish">
-                <input id="reqStatus" placeholder="Purpose of Joining">
-                <div class="file-drop">
-                    <label>Upload Soul Portrait:</label>
-                    <input type="file" id="reqAvatarFile" accept="image/*">
-                </div>
-                <div class="slate-actions">
-                    <button id="submitRequestBtn" class="primary-rune">Submit</button>
-                    <button id="closeRequestPopup" class="cancel-rune">Abandon</button>
+        <!-- Unlock / Password Modal -->
+        <div id="passwordPopup" class="ethereal-overlay" style="display: none;">
+            <div class="ancient-slate small-slate">
+                <h2 class="slate-title">Speak the Word</h2>
+                <p class="slate-lore">Only designated Overseers may enter.</p>
+                <div class="ritual-form">
+                    <input type="password" id="password" placeholder="Incantation...">
+                    <p id="wrongPassword" class="error-omen"></p>
+                    <div class="slate-actions">
+                        <button id="unlockButton" class="primary-rune">Unlock</button>
+                        <button id="closePopup" class="cancel-rune">Flee</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div id="passwordPopup" class="ethereal-overlay" style="display: none;">
-        <div class="ancient-slate small-slate">
-            <h2 class="slate-title">Speak the Word</h2>
-            <p class="slate-lore">Only designated Overseers may enter.</p>
-            <div class="ritual-form">
-                <input type="password" id="password" placeholder="Incantation...">
-                <p id="wrongPassword" class="error-omen"></p>
-                <div class="slate-actions">
-                    <button id="unlockButton" class="primary-rune">Unlock</button>
-                    <button id="closePopup" class="cancel-rune">Flee</button>
+        <!-- Rank Decree / Approval Modal -->
+        <div id="approvePopup" class="ethereal-overlay" style="display: none;">
+            <div class="ancient-slate small-slate">
+                <h2 class="slate-title">Decree Rank</h2>
+                <div class="ritual-form">
+                    <select id="approveCategory">
+                        <option>Founding</option>
+                        <option>Elite</option>
+                        <option>Exclusive</option>
+                        <option>Unknown</option>
+                        <option>Regular</option>
+                    </select>
+                    <div class="slate-actions">
+                        <button id="confirmApproveBtn" class="primary-rune">Seal</button>
+                        <button id="cancelApproveBtn" class="cancel-rune">Revoke</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div id="approvePopup" class="ethereal-overlay" style="display: none;">
-        <div class="ancient-slate small-slate">
-            <h2 class="slate-title">Decree Rank</h2>
-            <div class="ritual-form">
-                <select id="approveCategory">
-                    <option>Founding</option>
-                    <option>Elite</option>
-                    <option>Exclusive</option>
-                    <option>Unknown</option>
-                    <option>Regular</option>
-                </select>
-                <div class="slate-actions">
-                    <button id="confirmApproveBtn" class="primary-rune">Seal</button>
-                    <button id="cancelApproveBtn" class="cancel-rune">Revoke</button>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- Scripts -->
