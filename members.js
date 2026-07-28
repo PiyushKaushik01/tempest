@@ -492,3 +492,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+function smartReturn() {
+    // Check if the user has history within your site
+    if (document.referrer && document.referrer.indexOf(window.location.hostname) !== -1) {
+        window.history.back();
+    } else {
+        // Fallback to home page if they opened the page directly
+        window.location.href = 'index.html'; // Change to your actual home page URL
+    }
+}
