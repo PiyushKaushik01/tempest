@@ -52,6 +52,43 @@
         @media (max-width: 768px) {
             h1 { font-size: 8vw; }
         }
+   .back-btn {
+    position: fixed;
+    top: clamp(15px, 3vh, 30px);
+    left: clamp(15px, 4vw, 40px);
+    z-index: 100;
+    
+    /* Colors & Typography matching the gold theme */
+    color: var(--primary-gold, #ffdf70);
+    font-family: 'Georgia', serif;
+    font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    
+    /* Dark translucent background with gold border for contrast over black */
+    background: rgba(1, 10, 8, 0.85); 
+    border: 1px solid rgba(255, 223, 112, 0.4);
+    border-radius: 4px;
+    padding: clamp(6px, 1.2vh, 10px) clamp(12px, 2vw, 22px);
+    backdrop-filter: blur(8px);
+    
+    /* Shadow & subtle outer gold ambient glow */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.8), 
+                0 0 10px rgba(255, 223, 112, 0.1);
+    
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    background: #ffdf70;
+    color: #010a08;
+    border-color: #ffdf70;
+    box-shadow: 0 0 20px rgba(255, 223, 112, 0.5),
+                0 4px 15px rgba(0, 0, 0, 0.9);
+    transform: translateY(-2px);
+}
     </style>
 </head>
 <body>
@@ -61,6 +98,7 @@
         <h1>We're rich don't worry :)</h1>
     </div>
 
+    <a href="index2.html" class="back-btn">&#8592; Return</a>
     <!-- Import modern Three.js and Addons -->
     <script type="importmap">
         {
