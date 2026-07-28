@@ -389,7 +389,7 @@
     <div id="transition-overlay"
         style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; opacity: 0; pointer-events: none; transition: opacity 1.4s ease-in-out; z-index: 200;">
     </div>
-<!-- This is an HTML comment -->
+    <!-- This is an HTML comment -->
 
 
     <div id="webgl-container"></div>
@@ -416,8 +416,12 @@
                         style="color:inherit; text-decoration:none;">Citizens</a></div>
                 <div class="ui-nav-item"><a href="about.html" class="about-link"
                         style="color:inherit; text-decoration:none;">About Us</a></div>
-                <div class="ui-nav-item">Join Us</div>
-                <div class="ui-nav-item">Support</div>
+                <div class="ui-nav-item"><a href="members.html?openPetition=true" class="join-link"
+                        style="color:inherit; text-decoration:none;">Join Us</a></div>
+                <div class="ui-nav-item">
+                    <a href="support.html" class="support-link" style="color:inherit; text-decoration:none;">Support
+                        Us</a>
+                </div>
             </div>
             <div id="hamburger-btn" class="hamburger-icon">☰</div>
         </div>
@@ -428,8 +432,11 @@
                     style="color:inherit; text-decoration:none;">Citizens</a></div>
             <div class="drawer-nav-item"><a href="about.html" class="about-link"
                     style="color:inherit; text-decoration:none;">About Us</a></div>
-            <div class="drawer-nav-item">Join Us</div>
-            <div class="drawer-nav-item">Support</div>
+            <div class="drawer-nav-item"><a href="members.html?openPetition=true" class="join-link"
+                    style="color:inherit; text-decoration:none;">Join Us</a></div>
+            <div class="drawer-nav-item">
+                <a href="support.html" class="support-link" style="color:inherit; text-decoration:none;">Support Us</a>
+            </div>
         </div>
         <div class="ui-content">
             <div class="lore-box">
@@ -511,6 +518,64 @@
 
                 setTimeout(() => {
                     window.location.href = 'members.html';
+                }, 1500);
+            });
+        });
+        // --- SUPPORT US TRANSITION & REDIRECT ---
+        document.querySelectorAll('.support-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (typeof isTransitioning !== 'undefined' && isTransitioning) return;
+                if (typeof isTransitioning !== 'undefined') isTransitioning = true;
+
+                // Fade out main UI
+                const elMainUI = document.getElementById('main-ui');
+                if (elMainUI) {
+                    elMainUI.style.transition = 'opacity 0.8s ease';
+                    elMainUI.style.opacity = 0;
+                }
+
+                // Trigger your established gate zoom/transition animation
+                if (typeof appState !== 'undefined') appState = 'ZOOM_GATE';
+
+                const overlay = document.getElementById('transition-overlay');
+                if (overlay) {
+                    overlay.style.opacity = 1;
+                }
+
+                // Redirect to the support page after the animation finishes
+                setTimeout(() => {
+                    window.location.href = 'support.html';
+                }, 1500);
+            });
+        });
+        // --- JOIN US PETITION ZOOM & REDIRECT ---
+        document.querySelectorAll('.join-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (isTransitioning) return;
+                isTransitioning = true;
+
+                if (mobileDrawer) {
+                    mobileDrawer.classList.remove('open');
+                }
+
+                if (elMainUI) {
+                    elMainUI.style.transition = 'opacity 0.8s ease';
+                    elMainUI.style.opacity = 0;
+                }
+
+                // Trigger gate zoom animation
+                appState = 'ZOOM_GATE';
+
+                const overlay = document.getElementById('transition-overlay');
+                if (overlay) {
+                    overlay.style.opacity = 1;
+                }
+
+                // Redirect to members page with query parameter
+                setTimeout(() => {
+                    window.location.href = 'members.html?openPetition=true';
                 }, 1500);
             });
         });

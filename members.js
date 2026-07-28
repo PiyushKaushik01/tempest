@@ -110,7 +110,7 @@ async function addMemberCard(member) {
         ${avatarHTML}
         <h3>${member.name}</h3>
         <p><b>Gender:</b> ${member.gender}</p>
-        <p><b>Fetish:</b> ${member.fetish}</p>
+        <p><b>Occupation:</b> ${member.fetish}</p>
         <p><b>Status:</b> ${member.status}</p>
         ${deleteBtnHTML}
     `;
@@ -480,5 +480,15 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         observer.observe(adminPanel, { attributes: true, attributeFilter: ['style'] });
+    }
+});
+// Automatically trigger Petition Popup if arriving from 'Join Us' button
+document.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('openPetition') === 'true') {
+        const requestPopup = document.getElementById("requestPopup");
+        if (requestPopup) {
+            requestPopup.style.display = "flex";
+        }
     }
 });
