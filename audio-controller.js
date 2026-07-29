@@ -8,7 +8,10 @@
         hover: new Audio('audio/hover.wav'),
         click: new Audio('audio/click.mp3'),
         castleLoad: new Audio('audio/castle-load in.mp3'),
-        castleZoom: new Audio('audio/castle-zoom.mp3#t=2')
+        castleZoom: new Audio('audio/castle-zoom.mp3#t=2'),
+        gateOpen: new Audio('audio/gateopen.mp3'),
+        bookOpen: new Audio('audio/open.mp3'),   // <-- Added
+        bookClose: new Audio('audio/close.mp3')  // <-- Added
     };
 
     // 2. Set Volumes & Properties
@@ -17,6 +20,9 @@
     SOUNDS.click.volume = 0.8;
     SOUNDS.castleZoom.volume = 0.8;
     SOUNDS.castleLoad.volume = 0.8;
+    SOUNDS.gateOpen.volume = 0.8;
+    SOUNDS.bookOpen.volume = 1;                // <-- Added
+    SOUNDS.bookClose.volume = 0.8;               // <-- Added
     SOUNDS.castleLoad.loop = true;
 
     // --- Save Audio Progress Across Pages ---
@@ -47,7 +53,6 @@
         if (savedTime !== null) {
             const timeToSet = parseFloat(savedTime);
             
-            // Wait for audio metadata to be ready before setting currentTime
             if (SOUNDS.castleLoad.readyState >= 1) {
                 SOUNDS.castleLoad.currentTime = timeToSet;
             } else {
@@ -58,7 +63,6 @@
             }
         }
 
-        // Only play if tab is active and audio is paused
         if (SOUNDS.castleLoad.paused && !document.hidden) {
             SOUNDS.castleLoad.play().catch(err => {
                 console.warn("Autoplay blocked by browser. Awaiting user interaction...", err);
@@ -67,7 +71,7 @@
     }
 
     // 3. Page Detection Logic
-    const targetPages = ['index.html', 'journey.html', 'about.html' , 'members.html' , 'support.html'];
+    const targetPages = ['index.html', 'journey.html', 'about.html'];
     const currentPath = window.location.pathname.split('/').pop().toLowerCase();
     const isTargetPage = targetPages.includes(currentPath) || currentPath === '';
 
@@ -78,7 +82,6 @@
                 playCastleLoad();
             }
 
-            // Remove fallback listeners if playing succeeds
             if (!SOUNDS.castleLoad.paused) {
                 document.removeEventListener('click', attemptPlay);
                 document.removeEventListener('keydown', attemptPlay);
@@ -92,13 +95,12 @@
             document.addEventListener('DOMContentLoaded', attemptPlay);
         }
 
-        // Fallback interaction listeners for browser autoplay policies
         document.addEventListener('click', attemptPlay);
         document.addEventListener('keydown', attemptPlay);
         document.addEventListener('touchstart', attemptPlay);
     }
 
-    // 5. Tabbed-Out Handling (Pause when hidden, resume when visible)
+    // 5. Tabbed-Out Handling
     document.addEventListener('visibilitychange', function () {
         if (document.hidden) {
             saveAudioProgress();
@@ -125,5 +127,8 @@
     window.playHoverSound = function () { playSound(SOUNDS.hover); };
     window.playClickSound = function () { playSound(SOUNDS.click); };
     window.playCastleZoom = function () { playSound(SOUNDS.castleZoom); };
+    window.playGateOpenSound = function () { playSound(SOUNDS.gateOpen); };
+    window.playBookOpenSound = function () { playSound(SOUNDS.bookOpen); };   // <-- Exposed Trigger
+    window.playBookCloseSound = function () { playSound(SOUNDS.bookClose); }; // <-- Exposed Trigger
     window.playCastleLoad = playCastleLoad;
 })();

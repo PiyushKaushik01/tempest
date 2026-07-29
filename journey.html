@@ -194,6 +194,7 @@
 
     let isTransitioning = false;
     let hoveredDoorGroup = null;
+    let selectedDoorGroup = null; // Track permanently opened door
     let time = 0;
 
     let baseCameraPos = new THREE.Vector3();
@@ -212,7 +213,6 @@
       let targetY = 6.8;
 
       if (aspect < 1) {
-        // Portrait/Mobile view: pull camera back and slightly up so all 3 doors fit comfortably
         targetZ = 22 / aspect * 0.84;
         targetY = 6.8 + (1 - aspect) * 1.8;
       }
@@ -359,7 +359,7 @@
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.32; // Increased slightly for brighter look
+      renderer.toneMappingExposure = 1.32;
       container.appendChild(renderer.domElement);
 
       buildLighting();
@@ -386,11 +386,9 @@
     // --- ENVIRONMENT BUILDING ---
 
     function buildLighting() {
-      // Increased HemisphereLight intensity further
       const hemiLight = new THREE.HemisphereLight(0xa5acab, 0x2b2d29, 1.95);
       scene.add(hemiLight);
 
-      // Increased SpotLight intensity further
       const spotLight = new THREE.SpotLight(0xd4dfdd, 12000);
       spotLight.position.set(0, 38, -8);
       spotLight.target.position.set(0, 0, -16);
@@ -409,7 +407,7 @@
       const shaftMat = new THREE.MeshBasicMaterial({
         color: 0xd8e4e0,
         transparent: true,
-        opacity: 0.07, // increased godray visibility
+        opacity: 0.07,
         blending: THREE.NormalBlending,
         side: THREE.DoubleSide,
         depthWrite: false,
@@ -495,7 +493,6 @@
           : config.id === 'support' ? -THREE.MathUtils.degToRad(30) : 0;
         group.scale.setScalar(config.scale);
 
-        // --- 1. Flush Stone Arch Frame ---
         const frameGroup = new THREE.Group();
         const pL = new THREE.Mesh(new THREE.BoxGeometry(2.0, 16, 1.2), stoneMat);
         pL.position.set(-4.0, 8, 0);
@@ -512,7 +509,6 @@
         frameGroup.castShadow = true;
         group.add(frameGroup);
 
-        // --- 2. Unified Taller 3D Wooden Door ---
         const doorGroup = new THREE.Group();
         doorGroup.position.set(-3.1, 0, 0.12);
 
@@ -559,7 +555,6 @@
           doorMeshes.push(plank);
         }
 
-        // Iron straps and rivets
         [3.5, 13.0].forEach(yPos => {
           const strap = new THREE.Mesh(new THREE.BoxGeometry(6.3, 0.75, 0.75), ironMat);
           strap.position.set(3.1, yPos, 0.35);
@@ -573,7 +568,6 @@
           }
         });
 
-        // Single handle
         const ringGeo = new THREE.TorusGeometry(.5, .1, 8, 24);
         const singleRing = new THREE.Mesh(ringGeo, ironMat);
 
@@ -604,7 +598,6 @@
         doorGroup.add(leftLeaf, doorHitbox);
         group.add(doorGroup);
 
-        // --- 3. Crisp Front Label Plaque ---
         const canvas = document.createElement('canvas');
         canvas.width = 2048; canvas.height = 512;
         const ctx = canvas.getContext('2d');
@@ -631,7 +624,6 @@
         doorHitbox.userData.labelMat = labelMat;
         group.add(labelMesh);
 
-        // --- 4. Wall Torch Light ---
         addTorch(group);
 
         scene.add(group);
@@ -648,7 +640,6 @@
       );
       torchGroup.add(bracket);
 
-      // Increased PointLight intensity further (~1.25x previous boost)
       const fireLight = new THREE.PointLight(0xffa94d, 420, 26, 2);
       fireLight.position.set(0, 0.5, 0.5);
       fireLight.castShadow = true;
@@ -810,6 +801,10 @@
     function triggerDoorSelection() {
       if (isTransitioning || !hoveredDoorGroup) return;
       isTransitioning = true;
+      selectedDoorGroup = hoveredDoorGroup; // Keep track of opened door
+
+      // Play gate open sound effect
+      if (window.playGateOpenSound) window.playGateOpenSound();
 
       document.body.style.cursor = 'default';
       document.getElementById('ui-layer').style.opacity = '0';
@@ -875,17 +870,20 @@
 
       doorInteractables.forEach(door => {
         if (door.userData.isProxy) return;
+        const isSelected = selectedDoorGroup && selectedDoorGroup.userData.parentGroup === door.userData.parentGroup;
         const sameBayIsHovered = hoveredDoorGroup &&
           hoveredDoorGroup.userData.parentGroup === door.userData.parentGroup;
-        const targetAngle = sameBayIsHovered && !isTransitioning
+        
+        // Gate stays open if selected/clicked OR if currently hovered
+        const targetAngle = (isSelected || (sameBayIsHovered && !isTransitioning))
           ? door.userData.leafDirection * .72 : 0;
         door.userData.leaf.rotation.y += (targetAngle - door.userData.leaf.rotation.y) * .11;
       });
 
       renderer.render(scene, camera);
     }
+
     window.addEventListener('pageshow', (event) => {
-      // event.persisted is true if the page was loaded from the browser's cache (back/forward navigation)
       if (event.persisted) {
         window.location.reload();
       }
