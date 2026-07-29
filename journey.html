@@ -155,6 +155,7 @@
     }
   </style>
 </head>
+<script src="audio-controller.js"></script>
 
 <body>
   <div id="loading-screen">
@@ -769,7 +770,7 @@
           resetHover();
           hoveredDoorGroup = object;
           document.body.style.cursor = 'pointer';
-
+          if (window.playHoverSound) window.playHoverSound();
           if (object.material.emissive) object.material.emissive.setHex(0x1a1100);
           object.userData.labelMat.color.setHex(0xffd982);
         }
@@ -899,7 +900,7 @@
         window.location.href = 'index.html';
       }
     }
-    </script>
+  </script>
 
 </body>
 

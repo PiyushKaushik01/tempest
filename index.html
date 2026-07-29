@@ -383,7 +383,7 @@
         }
     </style>
 </head>
-</head>
+<script src="audio-controller.js"></script>
 
 <body>
     <div id="transition-overlay"
@@ -422,7 +422,7 @@
                     <a href="support.html" class="support-link" style="color:inherit; text-decoration:none;">Support
                         Us</a>
                 </div>
-                
+
             </div>
             <div id="hamburger-btn" class="hamburger-icon">☰</div>
         </div>
@@ -464,7 +464,13 @@
 </script>
 
     <script type="module">
-
+    
+        window.addEventListener('pageshow', (event) => {
+            // event.persisted is true if the page was loaded from the browser's cache (back/forward navigation)
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
         import * as THREE from 'three';
         let isTransitioning = false;
         const hamburgerBtn = document.getElementById('hamburger-btn');
@@ -482,6 +488,7 @@
             });
         }
 
+
         const loreTitle = document.querySelector('.lore-title');
         if (loreTitle) {
             loreTitle.addEventListener('click', () => {
@@ -495,11 +502,15 @@
         }
 
 
+        // --- CITIZENS LINK ---
         document.querySelectorAll('.citizens-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 if (isTransitioning) return;
                 isTransitioning = true;
+
+                // Play castle zoom audio directly
+                if (window.playCastleZoom) window.playCastleZoom();
 
                 if (mobileDrawer) {
                     mobileDrawer.classList.remove('open');
@@ -522,21 +533,23 @@
                 }, 1500);
             });
         });
-        // --- SUPPORT US TRANSITION & REDIRECT ---
+
+        // --- SUPPORT US LINK ---
         document.querySelectorAll('.support-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 if (typeof isTransitioning !== 'undefined' && isTransitioning) return;
                 if (typeof isTransitioning !== 'undefined') isTransitioning = true;
 
-                // Fade out main UI
+                // Play castle zoom audio directly
+                if (window.playCastleZoom) window.playCastleZoom();
+
                 const elMainUI = document.getElementById('main-ui');
                 if (elMainUI) {
                     elMainUI.style.transition = 'opacity 0.8s ease';
                     elMainUI.style.opacity = 0;
                 }
 
-                // Trigger your established gate zoom/transition animation
                 if (typeof appState !== 'undefined') appState = 'ZOOM_GATE';
 
                 const overlay = document.getElementById('transition-overlay');
@@ -544,19 +557,22 @@
                     overlay.style.opacity = 1;
                 }
 
-                // Redirect to the support page after the animation finishes
                 setTimeout(() => {
                     window.location.href = 'support.html';
                 }, 1500);
             });
         });
-        // --- JOIN US PETITION ZOOM & REDIRECT ---
+
+        // --- JOIN US LINK ---
         document.querySelectorAll('.join-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 if (isTransitioning) return;
                 isTransitioning = true;
 
+                // Play castle zoom audio directly
+                if (window.playCastleZoom) window.playCastleZoom();
+
                 if (mobileDrawer) {
                     mobileDrawer.classList.remove('open');
                 }
@@ -566,7 +582,6 @@
                     elMainUI.style.opacity = 0;
                 }
 
-                // Trigger gate zoom animation
                 appState = 'ZOOM_GATE';
 
                 const overlay = document.getElementById('transition-overlay');
@@ -574,19 +589,22 @@
                     overlay.style.opacity = 1;
                 }
 
-                // Redirect to members page with query parameter
                 setTimeout(() => {
                     window.location.href = 'members.html?openPetition=true';
                 }, 1500);
             });
         });
-         // --- JOIN US PETITION ZOOM & REDIRECT ---
+
+        // --- JOURNEY LINK ---
         document.querySelectorAll('.journey-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 if (isTransitioning) return;
                 isTransitioning = true;
 
+                // Play castle zoom audio directly
+                if (window.playCastleZoom) window.playCastleZoom();
+
                 if (mobileDrawer) {
                     mobileDrawer.classList.remove('open');
                 }
@@ -596,7 +614,6 @@
                     elMainUI.style.opacity = 0;
                 }
 
-                // Trigger gate zoom animation
                 appState = 'ZOOM_GATE';
 
                 const overlay = document.getElementById('transition-overlay');
@@ -604,18 +621,21 @@
                     overlay.style.opacity = 1;
                 }
 
-                // Redirect to members page with query parameter
                 setTimeout(() => {
                     window.location.href = 'journey.html';
                 }, 1500);
             });
         });
-        // --- ABOUT US DUNGEON ZOOM & REDIRECT ---
+
+        // --- ABOUT US LINK ---
         document.querySelectorAll('.about-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 if (isTransitioning) return;
                 isTransitioning = true;
+
+                // Play castle zoom audio directly
+                if (window.playCastleZoom) window.playCastleZoom();
 
                 if (mobileDrawer) {
                     mobileDrawer.classList.remove('open');
@@ -626,7 +646,6 @@
                     elMainUI.style.opacity = 0;
                 }
 
-                // Trigger dungeon zoom camera animation
                 appState = 'ZOOM_GATE';
 
                 const overlay = document.getElementById('transition-overlay');
@@ -1504,6 +1523,7 @@
                 console.error('An error occurred while loading the GLB model:', error);
             }
         );
+
     </script>
 </body>
 
